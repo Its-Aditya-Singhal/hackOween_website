@@ -1,0 +1,278 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>ImpactEcho — NGO Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg-dark:#0a0e27;--bg-purple:#1a0b2e;--neon-pink:#ff006e;--neon-purple:#8b5cf6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Inter,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at top,var(--bg-purple) 0%,var(--bg-dark) 100%);color:#fff;}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 30%,rgba(139,92,246,0.12) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(255,0,110,0.12) 0%,transparent 50%);pointer-events:none;z-index:0;opacity:0.9;}
+.back-btn{position:absolute;top:20px;left:20px;background:rgba(255,255,255,0.1);border:2px solid rgba(139,92,246,0.3);border-radius:12px;padding:10px 20px;color:white;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s ease;z-index:100;text-decoration:none;}
+.back-btn:hover{background:rgba(139,92,246,0.2);transform:translateX(-4px);}
+.container{position:relative;z-index:1;width:100%;max-width:500px;padding:20px;}
+.card{background:rgba(10,14,39,0.95);border-radius:24px;padding:40px;border:2px solid rgba(139,92,246,0.3);box-shadow:0 15px 40px rgba(0,0,0,0.5);}
+.logo{font-size:48px;text-align:center;margin-bottom:16px;}
+h1{font-size:32px;font-weight:900;margin-bottom:8px;text-align:center;background:linear-gradient(135deg,#fff 0%,var(--neon-pink) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:32px;font-size:14px;}
+.tabs{display:flex;gap:8px;margin-bottom:24px;}
+.tab{flex:1;padding:12px;border-radius:8px;border:2px solid rgba(139,92,246,0.2);background:rgba(255,255,255,0.05);cursor:pointer;text-align:center;font-weight:700;color:#94a3b8;transition:all 0.2s;}
+.tab.active{background:linear-gradient(135deg,var(--neon-pink),var(--neon-purple));color:white;border-color:transparent;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+label{display:block;font-size:13px;font-weight:700;color:#cbd5e1;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;margin-top:16px;}
+input,textarea{width:100%;padding:12px 16px;border-radius:12px;border:2px solid rgba(139,92,246,0.3);background:rgba(255,255,255,0.05);color:white;font-size:14px;margin-bottom:12px;transition:all 0.2s;}
+input:focus,textarea:focus{outline:none;border-color:var(--neon-purple);background:rgba(255,255,255,0.08);box-shadow:0 0 20px rgba(139,92,246,0.3);}
+textarea{min-height:100px;resize:vertical;}
+.file-upload{position:relative;display:inline-block;width:100%;margin-bottom:12px;}
+.file-upload input[type=file]{position:absolute;left:-9999px;}
+.file-label{display:block;padding:12px 16px;border-radius:12px;border:2px dashed rgba(139,92,246,0.3);background:rgba(255,255,255,0.05);color:#94a3b8;text-align:center;cursor:pointer;transition:all 0.2s;}
+.file-label:hover{border-color:var(--neon-purple);background:rgba(139,92,246,0.1);}
+.file-list{font-size:12px;color:#cbd5e1;margin-top:8px;}
+.checkbox-container{display:flex;align-items:flex-start;gap:12px;margin:16px 0;}
+.checkbox-container input[type=checkbox]{width:auto;margin:0;cursor:pointer;}
+.checkbox-container label{margin:0;font-size:13px;text-transform:none;cursor:pointer;}
+.btn{width:100%;background:linear-gradient(135deg,var(--neon-pink),var(--neon-purple));color:white;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.5px;box-shadow:0 8px 25px rgba(255,0,110,0.4);margin-top:16px;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(255,0,110,0.6);}
+.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.error,.success{padding:12px;border-radius:8px;margin-top:12px;font-size:13px;display:none;}
+.error{background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.3);color:#fca5a5;}
+.error.show,.success.show{display:block;}
+.success{background:rgba(34,197,94,0.1);border:2px solid rgba(34,197,94,0.3);color:#86efac;}
+.link{color:var(--neon-blue);cursor:pointer;text-decoration:underline;font-size:13px;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+<a href="/" class="back-btn">← Back</a>
+<div class="container">
+<div class="card">
+<div class="logo">🏢</div>
+<h1>NGO Portal</h1>
+<p class="subtitle">Register your organization or login</p>
+<div class="tabs">
+<div class="tab active" onclick="switchTab('login')">Login</div>
+<div class="tab" onclick="switchTab('register')">Register</div>
+<div class="tab" onclick="switchTab('existing')">Have ID</div>
+</div>
+
+<!-- LOGIN TAB -->
+<div class="tab-content active" id="login-tab">
+<form id="loginForm">
+<label>Username</label>
+<input type="text" id="login_username" required/>
+<label>Password</label>
+<input type="password" id="login_password" required/>
+<button type="submit" class="btn">Sign In</button>
+</form>
+<div class="error" id="login_error"></div>
+</div>
+
+<!-- REGISTER TAB -->
+<div class="tab-content" id="register-tab">
+<form id="registerForm" enctype="multipart/form-data">
+<label>Email *</label>
+<input type="email" name="email" required/>
+<label>Organization Name *</label>
+<input type="text" name="org_name" required/>
+<label>Responsible Person Name *</label>
+<input type="text" name="person_name" required/>
+<label>Contact Number *</label>
+<input type="tel" name="contact" required/>
+<label>Upload Certifications/Proofs (PDF, Images, Docs)</label>
+<div class="file-upload">
+<input type="file" id="files" name="files" multiple accept=".pdf,.png,.jpg,.jpeg,.doc,.docx"/>
+<label for="files" class="file-label">📎 Click to upload files</label>
+<div class="file-list" id="file-list"></div>
+</div>
+<div class="checkbox-container">
+<input type="checkbox" id="terms" name="terms" required/>
+<label for="terms">I agree to the Terms & Conditions and understand that my organization will be verified before approval.</label>
+</div>
+<button type="submit" class="btn">Register</button>
+</form>
+<div class="error" id="register_error"></div>
+<div class="success" id="register_success"></div>
+</div>
+
+<!-- EXISTING ID TAB -->
+<div class="tab-content" id="existing-tab">
+<p style="margin-bottom:16px;font-size:14px;color:#94a3b8;">Already have a unique ID assigned by admin? Create your credentials here.</p>
+<form id="existingForm">
+<label>Unique ID</label>
+<input type="text" id="unique_id" required placeholder="NGO12345678"/>
+<button type="button" class="btn" onclick="checkId()">Check ID</button>
+</form>
+<div id="credentials-form" style="display:none;margin-top:20px;">
+<p style="color:var(--neon-green);margin-bottom:12px;font-weight:700;">✓ ID Verified: <span id="org_name_display"></span></p>
+<form id="createCredsForm">
+<input type="hidden" id="cred_unique_id"/>
+<label>Create Username</label>
+<input type="text" id="cred_username" required/>
+<label>Create Password</label>
+<input type="password" id="cred_password" required/>
+<button type="submit" class="btn">Create Credentials</button>
+</form>
+</div>
+<div class="error" id="existing_error"></div>
+<div class="success" id="existing_success"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+let currentTab='login';
+function switchTab(tab){
+currentTab=tab;
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+event.target.classList.add('active');
+document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+document.getElementById(tab+'-tab').classList.add('active');
+}
+
+// File upload preview
+document.getElementById('files').addEventListener('change',function(){
+const list=document.getElementById('file-list');
+list.innerHTML='';
+for(let i=0;i<this.files.length;i++){
+list.innerHTML+=`📄 ${this.files[i].name}<br>`;
+}
+});
+
+// Login
+document.getElementById('loginForm').addEventListener('submit',async(e)=>{
+e.preventDefault();
+const error=document.getElementById('login_error');
+error.classList.remove('show');
+const btn=e.target.querySelector('button');
+btn.disabled=true;
+btn.textContent='Signing in...';
+try{
+const res=await fetch('/ngo-auth',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+username:document.getElementById('login_username').value,
+password:document.getElementById('login_password').value
+})
+});
+const data=await res.json();
+if(data.success){
+window.location.href=data.redirect;
+}else{
+error.textContent=data.error;
+error.classList.add('show');
+btn.disabled=false;
+btn.textContent='Sign In';
+}
+}catch(err){
+error.textContent='Connection error';
+error.classList.add('show');
+btn.disabled=false;
+btn.textContent='Sign In';
+}
+});
+
+// Register
+document.getElementById('registerForm').addEventListener('submit',async(e)=>{
+e.preventDefault();
+const error=document.getElementById('register_error');
+const success=document.getElementById('register_success');
+error.classList.remove('show');
+success.classList.remove('show');
+const btn=e.target.querySelector('button');
+btn.disabled=true;
+btn.textContent='Submitting...';
+const formData=new FormData(e.target);
+try{
+const res=await fetch('/ngo-register-submit',{method:'POST',body:formData});
+const data=await res.json();
+if(data.success){
+success.textContent='✓ Registration submitted successfully! Our team will review and notify you via email.';
+success.classList.add('show');
+e.target.reset();
+document.getElementById('file-list').innerHTML='';
+}else{
+error.textContent=data.error;
+error.classList.add('show');
+}
+}catch(err){
+error.textContent='Error: '+err.message;
+error.classList.add('show');
+}finally{
+btn.disabled=false;
+btn.textContent='Register';
+}
+});
+
+// Check ID
+async function checkId(){
+const error=document.getElementById('existing_error');
+const success=document.getElementById('existing_success');
+error.classList.remove('show');
+success.classList.remove('show');
+const uniqueId=document.getElementById('unique_id').value.trim();
+if(!uniqueId)return;
+try{
+const res=await fetch('/ngo-check-id',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({unique_id:uniqueId})
+});
+const data=await res.json();
+if(data.has_credentials){
+error.textContent='Credentials already created for this ID. Please use Login tab.';
+error.classList.add('show');
+}else if(data.valid_id){
+document.getElementById('credentials-form').style.display='block';
+document.getElementById('org_name_display').textContent=data.org_name;
+document.getElementById('cred_unique_id').value=uniqueId;
+}
+}catch(err){
+error.textContent='Invalid or unapproved ID';
+error.classList.add('show');
+}
+}
+
+// Create credentials
+document.getElementById('createCredsForm').addEventListener('submit',async(e)=>{
+e.preventDefault();
+const error=document.getElementById('existing_error');
+const success=document.getElementById('existing_success');
+error.classList.remove('show');
+success.classList.remove('show');
+const btn=e.target.querySelector('button');
+btn.disabled=true;
+btn.textContent='Creating...';
+try{
+const res=await fetch('/ngo-create-credentials',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+unique_id:document.getElementById('cred_unique_id').value,
+username:document.getElementById('cred_username').value,
+password:document.getElementById('cred_password').value
+})
+});
+const data=await res.json();
+if(data.success){
+success.textContent='✓ Credentials created! Please use Login tab to sign in.';
+success.classList.add('show');
+setTimeout(()=>switchTab('login'),2000);
+}else{
+error.textContent=data.error;
+error.classList.add('show');
+}
+}catch(err){
+error.textContent='Error: '+err.message;
+error.classList.add('show');
+}finally{
+btn.disabled=false;
+btn.textContent='Create Credentials';
+}
+});
+</script>
+</body>
+</html>
+

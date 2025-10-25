@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ImpactEcho — Connect Wallet</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E🔊%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg-dark: #0a0e27;
+    --bg-purple: #1a0b2e;
+    --neon-pink: #ff006e;
+    --neon-blue: #00d4ff;
+    --neon-purple: #8b5cf6;
+    --neon-green: #00ff87;
+    --neon-orange: #ff6b35;
+    --neon-yellow: #ffd23f;
+    --card: rgba(255,255,255,0.05);
+    --muted: #94a3b8;
+    --radius: 20px;
+    --shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,-apple-system,Arial;}
+  body{
+    background: radial-gradient(ellipse at top, #1a0b2e 0%, #0a0e27 100%);
+    background-attachment: fixed;
+    color:#ffffff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* Animated Gradient Background */
+  body::before{
+    content:'';
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255, 0, 110, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%);
+    animation:colorShift 15s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+    will-change:transform;
+  }
+
+  @keyframes colorShift{
+    0%, 100%{transform:translate3d(0,0,0) scale(1); opacity:0.8;}
+    33%{transform:translate3d(30px,-30px,0) scale(1.1); opacity:1;}
+    66%{transform:translate3d(-20px,20px,0) scale(0.9); opacity:0.9;}
+  }
+
+  /* Optimized Particles - Removed for better performance */
+
+  /* Back Button */
+  .back-btn{
+    position:fixed;
+    top:20px;
+    left:20px;
+    background:rgba(255,255,255,0.1);
+    border:2px solid rgba(139,92,246,0.3);
+    border-radius:12px;
+    padding:10px 20px;
+    color:white;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    z-index:2000;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .back-btn:hover{
+    background:rgba(139,92,246,0.2);
+    transform:translateX(-4px);
+  }
+
+  /* Navbar with Neon Glassmorphism */
+  nav{
+    position:fixed;top:0;left:0;width:100%;
+    background:rgba(10,14,39,0.8);
+    backdrop-filter:blur(20px) saturate(180%);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    box-shadow:0 8px 32px rgba(0,0,0,0.4), 0 0 40px rgba(139,92,246,0.2);
+    border-bottom:1px solid rgba(139,92,246,0.3);
+    display:flex;justify-content:center;gap:40px;
+    padding:16px 0;z-index:50;
+    animation:slideDown 0.6s ease, glowPulse 3s ease-in-out infinite;
+    will-change:transform;
+  }
+
+  @keyframes slideDown{
+    from{transform:translateY(-100%);opacity:0;}
+    to{transform:translateY(0);opacity:1;}
+  }
+
+  /* Removed glowPulse for performance */
+
+  nav button{
+    background:none;border:none;cursor:pointer;
+    font-weight:700;font-size:15px;color:#94a3b8;
+    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position:relative;
+    padding:8px 16px;
+    text-shadow:0 0 10px rgba(255,255,255,0);
+  }
+
+  nav button::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:12px;
+    padding:2px;
+    background:linear-gradient(135deg, var(--neon-pink), var(--neon-purple), var(--neon-blue));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity:0;
+    transition:opacity 0.3s ease;
+  }
+
+  nav button::after{
+    content:'';
+    position:absolute;
+    bottom:0;left:50%;
+    width:0;height:3px;
+    background:linear-gradient(90deg, var(--neon-pink), var(--neon-purple), var(--neon-blue));
+    transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform:translateX(-50%);
+    box-shadow:0 0 20px currentColor;
+  }
+
+  nav button:hover{
+    color:#ffffff;
+    transform:translateY(-3px) scale(1.05);
+    text-shadow:0 0 20px rgba(139,92,246,0.8);
+  }
+
+  nav button:hover::before{
+    opacity:1;
+  }
+
+  nav button:hover::after{
+    width:100%;
+  }
+
+  nav button.active{
+    color:#ffffff;
+    text-shadow:0 0 20px rgba(255,0,110,0.8);
+  }
+
+  nav button.active::after{
+    width:100%;
+    background:linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+  }
+
+  /* Layout */
+  main{
+    margin-top:90px;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    z-index:1;
+  }
+
+  .page{
+    display:none;
+    width:100%;
+    max-width:1100px;
+    margin:0 auto;
+    padding:28px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:20px;
+  }
+  .page.active{
+    display:flex;
+    animation:fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes fadeInUp{
+    from{opacity:0;transform:translateY(30px) scale(0.95);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+
+  h1{
+    margin:0;
+    font-size:36px;
+    line-height:1.05;
+    background:linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 50%, var(--neon-blue) 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    background-size:200% 200%;
+    animation:fadeInUp 0.8s ease 0.2s both, rainbowShift 5s ease infinite;
+    text-shadow:0 0 40px rgba(255,0,110,0.5);
+    font-weight:900;
+  }
+
+  @keyframes rainbowShift{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+  }
+  
+  p.lead{
+    margin:0;
+    color:#cbd5e1;
+    font-size:16px;
+    animation:fadeInUp 0.8s ease 0.3s both;
+    text-shadow:0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  /* Logo Animation - Optimized */
+  .logo{
+    animation:logoFloat 0.6s ease 0.1s both !important;
+    filter:drop-shadow(0 0 15px rgba(139,92,246,0.6));
+  }
+
+  @keyframes logoFloat{
+    from{opacity:0;transform:translate3d(0,-20px,0) scale(0.8);}
+    to{opacity:1;transform:translate3d(0,0,0) scale(1);}
+  }
+
+  /* Card - Ultra Optimized */
+  .card{
+    width:450px;
+    background:rgba(10,14,39,0.95);
+    border-radius:24px;
+    padding:32px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.5);
+    border:2px solid rgba(139,92,246,0.3);
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    transition:transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    animation:fadeInUp 0.6s ease 0.3s both;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .card::before{
+    content:'';
+    position:absolute;
+    inset:-2px;
+    background:linear-gradient(135deg, var(--neon-pink), var(--neon-purple), var(--neon-blue));
+    border-radius:24px;
+    z-index:-1;
+    opacity:0;
+    transition:opacity 0.3s ease;
+  }
+
+  .card:hover{
+    transform:translate3d(0,-6px,0);
+    box-shadow:0 20px 50px rgba(0,0,0,0.6);
+  }
+
+  .card:hover::before{
+    opacity:0.4;
+  }
+
+  .title{
+    font-weight:800;
+    font-size:16px;
+    position:relative;
+    z-index:1;
+  }
+
+  .wallet-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    justify-content:center;
+    position:relative;
+    z-index:1;
+  }
+
+  .dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--neon-pink), var(--neon-orange));
+    position:relative;
+    transition:all 0.3s ease;
+    box-shadow:0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+    animation:dotPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse{
+    0%, 100%{
+      background:linear-gradient(135deg, var(--neon-pink), var(--neon-orange));
+      box-shadow:0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+    }
+    50%{
+      background:linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+      box-shadow:0 0 20px var(--neon-green), 0 0 40px var(--neon-green);
+    }
+  }
+
+  .dot::after{
+    content:'';
+    position:absolute;
+    top:50%;left:50%;
+    width:100%;height:100%;
+    border-radius:50%;
+    background:inherit;
+    transform:translate(-50%,-50%);
+    animation:neonPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes neonPing{
+    0%{
+      transform:translate(-50%,-50%) scale(1);
+      opacity:1;
+    }
+    75%, 100%{
+      transform:translate(-50%,-50%) scale(3);
+      opacity:0;
+    }
+  }
+
+  .addr{font-weight:700;}
+
+  .cta{
+    margin-top:8px;
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    position:relative;
+    z-index:1;
+  }
+
+  .btn{
+    border:0;
+    padding:14px 28px;
+    border-radius:14px;
+    font-weight:800;
+    cursor:pointer;
+    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position:relative;
+    overflow:hidden;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    will-change:transform;
+  }
+
+  .btn::before{
+    content:'';
+    position:absolute;
+    top:50%;left:50%;
+    width:0;height:0;
+    border-radius:50%;
+    background:rgba(255,255,255,0.3);
+    transform:translate(-50%,-50%);
+    transition:width 0.5s ease, height 0.5s ease;
+  }
+
+  .btn:hover::before{
+    width:400px;
+    height:400px;
+  }
+
+  .btn.primary{
+    background:linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
+    color:white;
+    box-shadow:0 10px 40px rgba(255,0,110,0.4);
+    text-shadow:0 0 10px rgba(255,255,255,0.5);
+  }
+
+  .btn.primary:hover{
+    transform:translate3d(0,-3px,0) scale(1.03);
+    box-shadow:0 10px 30px rgba(255,0,110,0.5);
+  }
+
+  .btn.primary:active{
+    transform:translate3d(0,-2px,0) scale(1.02);
+  }
+
+  .btn.ghost{
+    background:rgba(10,14,39,0.6);
+    border:2px solid rgba(139,92,246,0.5);
+    backdrop-filter:blur(10px);
+    color:#ffffff;
+    box-shadow:0 0 30px rgba(139,92,246,0.2), inset 0 0 20px rgba(139,92,246,0.1);
+  }
+
+  .btn.ghost:hover{
+    background:rgba(139,92,246,0.2);
+    border-color:var(--neon-purple);
+    transform:translateY(-4px) scale(1.05);
+    box-shadow:0 10px 40px rgba(139,92,246,0.4), 0 0 60px rgba(139,92,246,0.3);
+    text-shadow:0 0 10px rgba(255,255,255,0.8);
+  }
+
+  .btn:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+    transform:none !important;
+    animation:none;
+  }
+
+  .footnote{
+    font-size:13px;
+    color:var(--muted);
+    margin-top:8px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* Enhanced Typography */
+  .small-muted{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.5;
+  }
+
+  /* Page-specific animations */
+  #about, #contact{
+    max-width:800px;
+  }
+
+  #about p.lead, #contact p.lead{
+    text-align:left;
+    line-height:1.8;
+  }
+
+  #contact p{
+    font-size:16px;
+    line-height:2;
+    animation:fadeInUp 0.8s ease 0.4s both;
+  }
+
+  @media(max-width:920px){
+    .card{width:100%;}
+    h1{font-size:24px;}
+  }
+
+  /* Loading State */
+  @keyframes shimmer{
+    0%{background-position:-1000px 0;}
+    100%{background-position:1000px 0;}
+  }
+</style>
+</head>
+<body>
+  <a href="/" class="back-btn">← Back</a>
+
+<!-- Navbar -->
+<nav>
+  <button id="tab-home" class="active">Home</button>
+  <button id="tab-about">About</button>
+  <button id="tab-contact">Contact</button>
+</nav>
+
+<main>
+  <!-- HOME PAGE -->
+  <section id="home" class="page active">
+    <div class="logo" style="width:70px;height:70px;border-radius:16px;background:linear-gradient(135deg,#3b82f6,#7c5cff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:26px;box-shadow:0 12px 30px rgba(59,130,246,0.18)">IE</div>
+    <h1>ImpactEcho — Trust-First Fundraising</h1>
+    <p class="lead">Create or support campaigns with wallet-backed trust.<br>Connect your wallet to enter your personal dashboard.</p>
+
+    <aside class="card" aria-label="Connect wallet">
+      <div class="title">Enter your ImpactEcho dashboard</div>
+      <div class="small-muted">Connect with MetaMask. We'll generate a secure session hash and take you to your dashboard.</div>
+
+      <div class="wallet-info" role="status" aria-live="polite">
+        <div class="dot" id="statusDot" title="connection status"></div>
+        <div>
+          <div class="small-muted">Wallet</div>
+          <div id="walletAddr" class="addr">Not connected</div>
+        </div>
+      </div>
+
+      <div class="cta">
+        <button id="connectBtn" class="btn primary">Connect MetaMask</button>
+        <button id="generateBtn" class="btn ghost" disabled>Generate & Enter</button>
+      </div>
+
+      <p class="footnote">Already signed in? Connect the same wallet to go directly to your dashboard.</p>
+    </aside>
+  </section>
+
+  <!-- ABOUT PAGE -->
+  <section id="about" class="page">
+    <h1>About ImpactEcho</h1>
+    <p class="lead">ImpactEcho is a decentralized, trust-driven fundraising platform.<br>
+      We verify fundraisers via blockchain-linked identities and track every donation transparently.<br><br>
+      Unlike traditional crowdfunding, our focus is on <strong>who is fundraising</strong>, not just who receives funds.
+      Each donor and fundraiser interaction is secured via cryptographic session hashes to ensure accountability and traceability.</p>
+  </section>
+
+  <!-- CONTACT PAGE -->
+  <section id="contact" class="page">
+    <h1>Contact Us</h1>
+    <p class="lead">Have a question or partnership idea?<br>Reach out to us:</p>
+    <p><strong>Email:</strong> hello@impactecho.org<br>
+       <strong>Twitter:</strong> @ImpactEcho<br>
+       <strong>Location:</strong> Bengaluru, India</p>
+  </section>
+</main>
+
+<script>
+/* ---- TAB SWITCHING ---- */
+const tabs = { home: document.getElementById('home'), about: document.getElementById('about'), contact: document.getElementById('contact') };
+const navButtons = { home: document.getElementById('tab-home'), about: document.getElementById('tab-about'), contact: document.getElementById('tab-contact') };
+Object.keys(navButtons).forEach(tab=>{
+  navButtons[tab].addEventListener('click',()=>{
+    Object.keys(tabs).forEach(t=>{
+      tabs[t].classList.remove('active');
+      navButtons[t].classList.remove('active');
+    });
+    tabs[tab].classList.add('active');
+    navButtons[tab].classList.add('active');
+  });
+});
+
+/* ---- MetaMask + Hash Logic ---- */
+function shortAddr(addr){return addr?addr.slice(0,6)+'…'+addr.slice(-4):'Not connected';}
+function toHex(buffer){return Array.from(new Uint8Array(buffer)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+async function sha256Hex(str){const data=new TextEncoder().encode(str);const hash=await crypto.subtle.digest('SHA-256',data);return toHex(hash);}
+
+const connectBtn=document.getElementById('connectBtn');
+const generateBtn=document.getElementById('generateBtn');
+const walletAddrEl=document.getElementById('walletAddr');
+const statusDot=document.getElementById('statusDot');
+
+let currentAccount=null;
+
+async function metamaskAvailable(){return Boolean(window.ethereum && window.ethereum.isMetaMask);}
+async function connectWallet(){
+  if(!await metamaskAvailable()){
+    if(confirm('MetaMask not detected. Install MetaMask?')) window.open('https://metamask.io/download.html','_blank');
+    return;
+  }
+  try{
+    const accts=await window.ethereum.request({method:'eth_requestAccounts'});
+    handleAccountsChanged(accts);
+  }catch(e){alert('Failed to connect: '+(e.message||e));}
+}
+function handleAccountsChanged(accounts){
+  if(!accounts||!accounts.length){
+    currentAccount=null;
+    walletAddrEl.textContent='Not connected';
+    statusDot.style.background='#F87171';
+    generateBtn.disabled=true;
+  }else{
+    currentAccount=accounts[0];
+    walletAddrEl.textContent=shortAddr(currentAccount);
+    statusDot.style.background='#34D399';
+    generateBtn.disabled=false;
+  }
+}
+if(window.ethereum){
+  window.ethereum.on?.('accountsChanged',handleAccountsChanged);
+  window.ethereum.on?.('chainChanged',()=>location.reload());
+}
+
+async function generateSessionHash(){
+  if(!currentAccount){alert('Connect MetaMask first.');return;}
+  const ts=new Date().toISOString();
+  const nonce=crypto.getRandomValues(new Uint32Array(3)).join('-');
+  const payload=`${currentAccount}|${ts}|${nonce}`;
+  const hash=await sha256Hex(payload);
+  return {hash,address:currentAccount,timestamp:ts,nonce};
+}
+
+generateBtn.addEventListener('click', async () => {
+  if(!currentAccount) return alert('Connect MetaMask first.');
+  generateBtn.disabled=true;
+  generateBtn.textContent='Generating…';
+  try{
+    const obj = await generateSessionHash();
+    // Store wallet address in localStorage
+    localStorage.setItem('walletAddress', currentAccount);
+    // store hash in backend
+    const res = await fetch('/api/store-hash', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(obj)
+    });
+    if(!res.ok) throw new Error('Failed to store hash');
+
+    // ✅ Redirect to /dash instead of old dashboard.html
+    location.href = '/dash';
+  }catch(e){
+    alert('Failed: '+(e.message||e));
+  }finally{
+    generateBtn.disabled=false;
+    generateBtn.textContent='Generate & Enter';
+  }
+});
+
+connectBtn.addEventListener('click',connectWallet);
+
+(async function init(){
+  if(await metamaskAvailable()){
+    try{
+      const accts=await window.ethereum.request({method:'eth_accounts'});
+      if(accts?.length) handleAccountsChanged(accts);
+    }catch{}
+  }else{
+    statusDot.style.background='#FBBF24';
+    walletAddrEl.textContent='MetaMask not installed';
+    connectBtn.textContent='Install MetaMask';
+    connectBtn.addEventListener('click',()=>window.open('https://metamask.io/download.html','_blank'));
+  }
+})();
+</script>
+</body>
+</html>

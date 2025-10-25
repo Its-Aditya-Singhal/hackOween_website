@@ -1,0 +1,372 @@
+/* Admin Panel CSS - Neon Cyberpunk Edition */
+
+:root {
+  --bg-dark: #0a0e27;
+  --bg-purple: #1a0b2e;
+  --neon-pink: #ff006e;
+  --neon-blue: #00d4ff;
+  --neon-purple: #8b5cf6;
+  --neon-green: #00ff87;
+  --card: rgba(255,255,255,0.05);
+  --muted: #94a3b8;
+  --radius: 20px;
+  --shadow: 0 20px 60px rgba(0,0,0,0.5);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: radial-gradient(ellipse at top, #1a0b2e 0%, #0a0e27 100%);
+  background-attachment: fixed;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  animation: fadeIn 0.6s ease;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Animated Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(255, 0, 110, 0.2) 0%, transparent 50%);
+  animation: colorShift 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+@keyframes colorShift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+  50% { transform: translate(-30px, 30px) scale(1.1); opacity: 1; }
+}
+
+/* Particles removed for better performance */
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 20px 50px;
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translate3d(0, 30px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Topbar - Ultra Optimized */
+.topbar {
+  position: sticky;
+  top: 0;
+  background: rgba(10, 14, 39, 0.98);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  height: 64px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(139,92,246,0.3);
+  z-index: 100;
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translate3d(0, -100%, 0); opacity: 0; }
+  to { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+/* Removed navGlow animation for performance */
+
+.brand { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  font-weight: 600;
+  transition: transform 0.3s ease;
+}
+
+.brand:hover {
+  transform: scale(1.05);
+}
+
+.brand .logo {
+  font-size: 28px;
+  animation: logoSpin 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(255,0,110,0.8));
+}
+
+@keyframes logoSpin {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(180deg); }
+}
+
+.brand-name { 
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple), var(--neon-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: rainbowText 5s ease infinite;
+}
+
+@keyframes rainbowText {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.nav-right button { 
+  background: none; 
+  border: none; 
+  color: #cbd5e1;
+  font-weight: 600; 
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-right button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-right button:hover::before {
+  opacity: 0.2;
+}
+
+.nav-right button:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+  text-shadow: 0 0 10px rgba(139,92,246,0.8);
+}
+
+.btn-link {
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  background: rgba(10,14,39,0.95);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  padding: 32px;
+  border: 2px solid rgba(139,92,246,0.2);
+  transition: transform 0.2s ease;
+  animation: fadeInScale 0.5s ease backwards;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95) translate3d(0, 20px, 0); }
+  to { opacity: 1; transform: scale(1) translate3d(0, 0, 0); }
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple), var(--neon-blue));
+  border-radius: var(--radius);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover {
+  transform: translate3d(0, -4px, 0);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  border-color: rgba(139,92,246,0.5);
+}
+
+.card:hover::before {
+  opacity: 0.3;
+}
+
+.card h2 {
+  margin-bottom: 24px;
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.input, textarea {
+  width: 100%;
+  padding: 14px 18px;
+  margin: 8px 0 20px;
+  border: 2px solid rgba(139,92,246,0.3);
+  border-radius: 12px;
+  font-size: 14px;
+  color: #ffffff;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--neon-purple);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 30px rgba(139,92,246,0.5), inset 0 0 20px rgba(139,92,246,0.1);
+  transform: translateY(-2px);
+}
+
+.input:hover, textarea:hover {
+  border-color: rgba(139,92,246,0.5);
+}
+
+textarea { 
+  resize: vertical; 
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #ffffff;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.fund-btn {
+  background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 32px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 30px rgba(255,0,110,0.4);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.fund-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+}
+
+.fund-btn:hover::before {
+  width: 400px;
+  height: 400px;
+}
+
+.fund-btn:hover { 
+  transform: translate3d(0, -3px, 0) scale(1.05);
+  box-shadow: 0 0 40px rgba(255,0,110,0.6);
+}
+
+.fund-btn:active {
+  transform: translate3d(0, -2px, 0) scale(1.02);
+}
+
+.muted { 
+  color: var(--muted); 
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Success/Error Messages */
+#message {
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-top: 16px;
+  font-weight: 600;
+  animation: slideIn 0.4s ease;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+#message[style*="green"] {
+  background: rgba(0,255,135,0.1);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  box-shadow: 0 0 30px rgba(0,255,135,0.3);
+}
+
+#message[style*="red"] {
+  background: rgba(255,0,110,0.1);
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+  box-shadow: 0 0 30px rgba(255,0,110,0.3);
+}
+
+/* Form Improvements */
+form {
+  animation: fadeIn 0.6s ease 0.2s both;
+}
+
+/* Loading State */
+.fund-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  animation: none;
+}
+
+/* Advanced Performance Optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.topbar, .card, .fund-btn {
+  contain: layout style;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}

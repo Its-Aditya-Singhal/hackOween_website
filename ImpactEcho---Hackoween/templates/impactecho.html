@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ImpactEcho Chatbot</title>
+  <style>
+    /* ---------- General Styles ---------- */
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    /* ---------- Floating Button ---------- */
+    #chatbot-button {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      font-size: 28px;
+      transition: transform 0.2s ease;
+      z-index: 9999;
+    }
+
+    #chatbot-button:hover {
+      transform: scale(1.1);
+    }
+
+    /* ---------- Chat Window ---------- */
+    #chatbot {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 320px;
+      height: 430px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10000;
+    }
+
+    #chatbot-header {
+      background: #2563eb;
+      color: #fff;
+      padding: 12px 16px;
+      font-weight: bold;
+    }
+
+    #chatbot-messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      background: #f8fafc;
+    }
+
+    .message {
+      margin-bottom: 8px;
+      max-width: 80%;
+      padding: 8px 12px;
+      border-radius: 14px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background: #2563eb;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+    }
+
+    .bot {
+      background: #e2e8f0;
+      color: #111;
+      margin-right: auto;
+      border-bottom-left-radius: 0;
+    }
+
+    /* ---------- Typing Animation ---------- */
+    .typing {
+      display: inline-flex;
+      align-items: center;
+      background: #e2e8f0;
+      color: #111;
+      border-radius: 14px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      margin-right: auto;
+    }
+
+    .dot {
+      height: 6px;
+      width: 6px;
+      background-color: #555;
+      border-radius: 50%;
+      margin: 0 2px;
+      animation: blink 1.4s infinite both;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 0.2;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.2;
+      }
+    }
+
+    /* ---------- Input Bar ---------- */
+    #chatbot-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    #chatbot-input input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    #chatbot-input button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #chatbot-input button:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Chat Button -->
+  <button id="chatbot-button">💬</button>
+
+  <!-- Chat Window -->
+  <div id="chatbot">
+    <div id="chatbot-header">ImpactEcho 🤖</div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-input">
+      <input id="user-input" type="text" placeholder="Ask something..." />
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // ---------- Mock Blockchain Data ----------
+    const donationData = {
+      donationCause: "Clean Water Initiative",
+      verifiedByAI: true,
+      badge: "Silver Supporter",
+      amount: "2.5 ETH",
+      paymentDetails: {
+        txHash: "0xabc123def456...",
+        status: "Confirmed",
+        timestamp: "2025-10-14T08:26:00Z",
+      },
+    };
+
+    // ---------- Chatbot Logic ----------
+    const chatBtn = document.getElementById("chatbot-button");
+    const chatWindow = document.getElementById("chatbot");
+    const messagesDiv = document.getElementById("chatbot-messages");
+    const userInput = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+
+    // Toggle chatbot
+    chatBtn.onclick = () => {
+      chatWindow.style.display =
+        chatWindow.style.display === "flex" ? "none" : "flex";
+    };
+
+    // Send message
+    sendBtn.onclick = () => handleUserMessage();
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleUserMessage();
+    });
+
+    // Initial message
+    addMessage("bot", "Hey! I'm ImpactEcho 🤖. Ask me about your donation or payment progress!");
+
+    function handleUserMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      addMessage("user", text);
+      userInput.value = "";
+
+      showTypingAnimation();
+
+      setTimeout(() => {
+        removeTypingAnimation();
+        const reply = generateAIResponse(text.toLowerCase());
+        addMessage("bot", reply);
+      }, 1000);
+    }
+
+    function addMessage(sender, text) {
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message", sender);
+      msgDiv.textContent = text;
+      messagesDiv.appendChild(msgDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // Typing animation
+    let typingDiv;
+    function showTypingAnimation() {
+      typingDiv = document.createElement("div");
+      typingDiv.classList.add("typing");
+      typingDiv.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+      messagesDiv.appendChild(typingDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function removeTypingAnimation() {
+      if (typingDiv) typingDiv.remove();
+    }
+
+    // ---------- Mock AI Logic ----------
+    function generateAIResponse(text) {
+      // Greetings
+      if (["hi", "hello", "hey", "yo", "hola"].some((w) => text.includes(w)))
+        return "Hey there 👋 I'm ImpactEcho — your friendly donation assistant! Ask me about your donation status, verification, or badge.";
+
+      if (text.includes("amount") || text.includes("how much"))
+        return `You donated ${donationData.amount} to the "${donationData.donationCause}" campaign 💧.`;
+
+      if (text.includes("cause") || text.includes("campaign"))
+        return `Your donation supports the "${donationData.donationCause}" initiative — a great choice! 🌍`;
+
+      if (text.includes("verified"))
+        return donationData.verifiedByAI
+          ? "✅ Your donation has been verified by our AI system — it's authentic and recorded on-chain."
+          : "⚠️ It seems your donation is still awaiting AI verification.";
+
+      if (text.includes("badge"))
+        return `You've earned the "${donationData.badge}" badge 🏅. Thanks for making an impact!`;
+
+      if (text.includes("payment") || text.includes("status"))
+        return `Transaction status: ${donationData.paymentDetails.status} (${donationData.paymentDetails.txHash.slice(
+          0,
+          10
+        )}...).`;
+
+      if (text.includes("thank") || text.includes("thanks"))
+        return "You're most welcome 💙 Every bit of support matters.";
+
+      const fallbacks = [
+        "Hmm, could you rephrase that? I might’ve missed something.",
+        "I'm here to help with your donation details — maybe ask about verification, badge, or status?",
+        "Not sure I got that, but your donation is doing good things 🌱",
+      ];
+      return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    }
+  </script>
+</body>
+</html>

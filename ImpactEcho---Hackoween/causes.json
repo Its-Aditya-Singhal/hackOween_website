@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "title": "Clean Water Access",
+        "description": "Provide clean drinking water to rural villages.",
+        "goal": 5000,
+        "raised": 1200,
+        "image": "https://cdn-icons-png.flaticon.com/512/4150/4150906.png"
+    },
+    {
+        "id": 2,
+        "title": "Education for All",
+        "description": "Support underprivileged children with school kits.",
+        "goal": 8000,
+        "raised": 3500,
+        "image": "https://cdn-icons-png.flaticon.com/512/1048/1048953.png"
+    },
+    {
+        "id": 3,
+        "title": "Tree Plantation Drive",
+        "description": "Plant trees to restore green cover and fight climate change.",
+        "goal": 6000,
+        "raised": 2700,
+        "image": "https://cdn-icons-png.flaticon.com/512/765/765978.png"
+    },
+    {
+        "id": 4,
+        "title": "Books donation for Rural Children",
+        "description": "helping rural children by providing books and stationery.",
+        "goal": 16000,
+        "raised": 0,
+        "image": "https://cdn-icons-png.flaticon.com/512/1048/1048953.png"
+    },
+    {
+        "id": 5,
+        "title": "some donation",
+        "description": "i dont know sorry",
+        "goal": 200,
+        "raised": 0,
+        "image": "https://cdn-icons-png.flaticon.com/512/1048/1048953.png"
+    },
+    {
+        "id": 6,
+        "title": "hello",
+        "description": "hi",
+        "goal": 2000,
+        "raised": 0,
+        "image": "https://cdn-icons-png.flaticon.com/512/1048/1048953.png"
+    },
+    {
+        "id": 7,
+        "title": "for forest",
+        "description": "hello ",
+        "goal": 50000,
+        "raised": 0,
+        "image": "https://media.istockphoto.com/id/1446199740/photo/path-through-a-sunlit-forest.jpg?s=612x612&w=0&k=20&c=DuozAED7qfI5E6PcVb4bHtFJ_uM_n1duok56j_liLEA=",
+        "ngo_name": "Q-Forest"
+    },
+    {
+        "id": 8,
+        "title": "cars",
+        "description": "hello",
+        "goal": 70000,
+        "raised": 0,
+        "image": "https://images.unsplash.com/photo-1704340142770-b52988e5b6eb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MXx8Y2FyfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000",
+        "ngo_name": "arch"
+    }
+]

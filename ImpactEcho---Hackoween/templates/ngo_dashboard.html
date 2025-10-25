@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>ImpactEcho — NGO Dashboard</title>
+<link rel="stylesheet" href="/static/style2.css"/>
+<style>
+.status-badge{display:inline-block;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;text-transform:uppercase;}
+.status-pending{background:rgba(251,191,36,0.2);color:#fbbf24;border:1px solid #fbbf24;}
+.status-approved{background:rgba(34,197,94,0.2);color:#22c55e;border:1px solid #22c55e;}
+.request-card{background:rgba(10,14,39,0.6);border:2px solid rgba(139,92,246,0.2);border-radius:16px;padding:24px;margin-bottom:20px;}
+.request-card h3{margin-bottom:12px;}
+</style>
+</head>
+<body>
+<header class="topbar">
+<div class="brand"><span class="logo">💖</span><span class="brand-name">ImpactEcho NGO</span></div>
+<nav class="nav-right">
+<span id="ngoName" style="color:#cbd5e1;margin-right:16px;"></span>
+<button onclick="window.location.href='/ngo-logout'" class="btn-link">Logout</button>
+</nav>
+</header>
+<main class="container">
+<section class="card" style="max-width:100%;margin:30px auto;">
+<h2 style="margin-bottom:32px;">NGO Dashboard</h2>
+<div style="margin-bottom:32px;">
+<h3 style="margin-bottom:16px;">Submit New Cause Request</h3>
+<form id="causeRequestForm">
+<label>Cause Title</label>
+<input type="text" id="title" class="input" required/>
+<label>Description</label>
+<textarea id="description" class="input" required></textarea>
+<label>Goal Amount (₹)</label>
+<input type="number" id="goal" class="input" required/>
+<label>Image URL</label>
+<input type="text" id="image" class="input" required/>
+<button type="submit" class="fund-btn" style="margin-top:15px;">Submit Request</button>
+</form>
+<p id="message" class="muted small" style="margin-top:10px;"></p>
+</div>
+<div>
+<h3 style="margin-bottom:16px;">My Cause Requests</h3>
+<div id="requestsList"></div>
+</div>
+</section>
+</main>
+<script>
+async function loadRequests(){
+const res=await fetch('/ngo-my-requests');
+const requests=await res.json();
+const list=document.getElementById('requestsList');
+if(requests.length===0){
+list.innerHTML='<p class="muted">No requests yet. Submit your first cause above!</p>';
+return;
+}
+list.innerHTML=requests.map(r=>`
+<div class="request-card">
+<h3>${r.title}</h3>
+<p class="muted">${r.description}</p>
+<p style="margin-top:12px;"><strong>Goal:</strong> ₹${r.goal.toLocaleString()}</p>
+<p style="margin-top:8px;"><strong>Status:</strong> <span class="status-badge status-${r.status}">${r.status}</span></p>
+<p class="muted small" style="margin-top:8px;">Submitted: ${new Date(r.submitted_at).toLocaleString()}</p>
+${r.approved_at?`<p class="muted small">Approved: ${new Date(r.approved_at).toLocaleString()}</p>`:''}
+</div>
+`).join('');
+}
+
+document.getElementById('causeRequestForm').addEventListener('submit',async(e)=>{
+e.preventDefault();
+const message=document.getElementById('message');
+const btn=e.target.querySelector('button');
+btn.disabled=true;
+btn.textContent='Submitting...';
+try{
+const res=await fetch('/ngo-cause-request',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+title:document.getElementById('title').value,
+description:document.getElementById('description').value,
+goal:Number(document.getElementById('goal').value),
+image:document.getElementById('image').value
+})
+});
+const data=await res.json();
+if(data.success){
+message.style.color='green';
+message.textContent='✓ Request submitted! Waiting for admin approval.';
+e.target.reset();
+loadRequests();
+}else{
+message.style.color='red';
+message.textContent=data.error||'Error';
+}
+}catch(err){
+message.style.color='red';
+message.textContent='Error: '+err.message;
+}finally{
+btn.disabled=false;
+btn.textContent='Submit Request';
+}
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+loadRequests();
+setInterval(loadRequests,10000);
+});
+</script>
+</body>
+</html>
+

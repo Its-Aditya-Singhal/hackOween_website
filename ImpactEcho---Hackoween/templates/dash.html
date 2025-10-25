@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ImpactEcho — Dashboard</title>
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Chatbot CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
+</head>
+<body>
+  <!-- Header -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">💖</span><span class="brand-name">ImpactEcho</span>
+    </div>
+    <nav class="nav-right">
+      <span class="status-dot"></span><span class="status-text">Live Impact Tracking</span>
+      <button id="logoutBtn" class="btn-link">Logout</button>
+    </nav>
+  </header>
+
+  <!-- Main Dashboard -->
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero card hero-gradient">
+      <div class="hero-left">
+        <h1>Welcome back,</h1>
+        <h2 id="username-banner">Manaswi G</h2>
+        <p class="muted">Continue your impact journey — track donations, fund causes you care about, and see the ripple effect of your generosity.</p>
+        <div class="hero-badges">
+          <span class="badge">Global Impact</span>
+          <span class="badge">Secure & Transparent</span>
+          <span class="badge">Real-time Tracking</span>
+        </div>
+      </div>
+      <aside class="hero-right card small-panel">
+        <h3>Welcome to ImpactEcho</h3>
+        <input id="usernameInput" class="input" value="Manaswi G" />
+        <p class="muted small">Welcome, <strong id="welcomeInline">Manaswi G</strong>! Ready to make an impact?</p>
+      </aside>
+    </section>
+
+    <!-- Stats Cards -->
+    <section class="stats-row">
+      <div class="stat card">
+        <div class="stat-icon">💰</div>
+        <div>
+          <div class="stat-title">Total Impact</div>
+          <div class="stat-value" id="totalImpact">₹0</div>
+        </div>
+      </div>
+      <div class="stat card">
+        <div class="stat-icon">🎯</div>
+        <div>
+          <div class="stat-title">Causes Supported</div>
+          <div class="stat-value" id="causesSupported">0</div>
+        </div>
+      </div>
+      <div class="stat card">
+        <div class="stat-icon">❤️</div>
+        <div>
+          <div class="stat-title">Donations Made</div>
+          <div class="stat-value" id="donationsMade">0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Two Column Section -->
+    <section class="two-col">
+      <div class="card big" id="recentImpact">
+        <h3>Recent Impact</h3>
+        <ul id="recentList" class="recent-list">
+          <li class="muted">No donations yet — be the first!</li>
+        </ul>
+      </div>
+      <div class="card big" id="yourImpact">
+        <h3>Your Impact</h3>
+        <div class="lives-impacted">
+          <div class="big-number" id="livesImpacted">0</div>
+          <div class="muted">Lives Impacted</div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label">Impact Progress</div>
+          <div class="progress-wrap">
+            <div class="progress-bar" id="impactProgressBar" style="width:0%"></div>
+          </div>
+          <div class="progress-percent" id="impactPercent">0%</div>
+        </div>
+        <p class="muted tiny">Every ₹25 helps one person in need</p>
+      </div>
+    </section>
+
+    <!-- Title -->
+    <section class="section-title">
+      <h2>Support Meaningful Causes</h2>
+      <p class="muted">Choose from verified causes and make a direct impact. Every donation creates a ripple of positive change.</p>
+    </section>
+
+    <!-- Causes Grid -->
+    <section class="causes-grid" id="causesGrid"></section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="brand-mini">💖 <strong>ImpactEcho</strong></div>
+        <div class="muted">© 2025 ImpactEcho · Amplifying generosity worldwide</div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Chatbot JS -->
+  <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+  <!-- Dashboard JS -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
