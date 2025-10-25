@@ -370,3 +370,169 @@ form {
   -webkit-transform: translateZ(0);
   will-change: transform;
 }
+
+/* ================================
+   RESPONSIVE DESIGN - ADMIN PANEL
+   ================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 95%;
+    padding: 20px 15px;
+  }
+  
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 15px 20px;
+    flex-wrap: wrap;
+  }
+  
+  .brand-name {
+    font-size: 18px;
+  }
+  
+  .nav-right {
+    gap: 10px;
+  }
+  
+  .container {
+    padding: 15px;
+  }
+  
+  .card {
+    padding: 25px 20px;
+  }
+  
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .stat-card {
+    padding: 15px;
+  }
+  
+  .stat-value {
+    font-size: 26px;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+  }
+  
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 6px;
+    margin-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .tab {
+    font-size: 12px;
+    padding: 8px 14px;
+    flex-shrink: 0;
+  }
+  
+  table {
+    font-size: 13px;
+  }
+  
+  th, td {
+    padding: 10px 8px;
+  }
+  
+  .input, .btn {
+    font-size: 13px;
+    padding: 10px 15px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .topbar {
+    padding: 12px 15px;
+  }
+  
+  .logo {
+    font-size: 22px;
+  }
+  
+  .brand-name {
+    font-size: 16px;
+  }
+  
+  .btn-link {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+  
+  .card {
+    padding: 20px 15px;
+    border-radius: 16px;
+  }
+  
+  .card h2 {
+    font-size: 22px;
+  }
+  
+  .stats {
+    gap: 10px;
+  }
+  
+  .stat-card {
+    padding: 12px;
+  }
+  
+  .stat-value {
+    font-size: 22px;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+  }
+  
+  .tab {
+    font-size: 11px;
+    padding: 7px 12px;
+  }
+  
+  table {
+    font-size: 12px;
+  }
+  
+  th, td {
+    padding: 8px 6px;
+  }
+  
+  .address {
+    max-width: 100px;
+  }
+  
+  .input {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+  
+  label {
+    font-size: 12px;
+  }
+  
+  .btn {
+    font-size: 12px;
+    padding: 9px 14px;
+  }
+}

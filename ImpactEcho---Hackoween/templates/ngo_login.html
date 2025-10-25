@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ImpactEcho — NGO Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -41,6 +42,33 @@ textarea{min-height:100px;resize:vertical;}
 .error.show,.success.show{display:block;}
 .success{background:rgba(34,197,94,0.1);border:2px solid rgba(34,197,94,0.3);color:#86efac;}
 .link{color:var(--neon-blue);cursor:pointer;text-decoration:underline;font-size:13px;text-align:center;margin-top:12px;}
+
+/* Responsive Design */
+@media(max-width:768px){
+.container{padding:15px;max-width:100%;}
+.card{padding:30px 20px;border-radius:16px;}
+h1{font-size:26px;}
+.subtitle{font-size:13px;margin-bottom:24px;}
+.tabs{gap:6px;flex-wrap:wrap;}
+.tab{font-size:13px;padding:10px 8px;}
+label{font-size:12px;}
+input,textarea{padding:10px 14px;font-size:13px;}
+.btn{padding:12px 24px;font-size:13px;}
+.back-btn{font-size:13px;padding:8px 16px;}
+}
+
+@media(max-width:480px){
+.logo{font-size:36px;margin-bottom:12px;}
+h1{font-size:22px;}
+.subtitle{font-size:12px;}
+.card{padding:24px 16px;}
+.tab{font-size:12px;padding:8px 6px;}
+input,textarea{font-size:12px;padding:9px 12px;}
+label{font-size:11px;}
+.checkbox-container label{font-size:11px;}
+.btn{padding:11px 20px;font-size:12px;}
+.back-btn{top:10px;left:10px;padding:6px 12px;font-size:12px;}
+}
 </style>
 </head>
 <body>

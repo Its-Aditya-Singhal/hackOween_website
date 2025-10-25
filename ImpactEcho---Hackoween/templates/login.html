@@ -168,6 +168,81 @@
     .btn:active{
       transform:translateY(0);
     }
+    
+    /* Responsive Design */
+    @media(max-width:1024px){
+      .options{
+        max-width:900px;
+      }
+      .option-card{
+        max-width:280px;
+      }
+    }
+    
+    @media(max-width:768px){
+      .container{
+        padding:15px;
+      }
+      h1{
+        font-size:36px;
+      }
+      .subtitle{
+        font-size:16px;
+        margin-bottom:40px;
+      }
+      .options{
+        flex-direction:column;
+        align-items:center;
+        gap:20px;
+      }
+      .option-card{
+        width:100%;
+        max-width:400px;
+        min-height:auto;
+        padding:32px 24px;
+      }
+      .option-icon{
+        font-size:60px;
+        height:70px;
+      }
+      .option-card h2{
+        font-size:24px;
+        min-height:auto;
+      }
+      .option-card p{
+        font-size:14px;
+        min-height:auto;
+      }
+    }
+    
+    @media(max-width:480px){
+      h1{
+        font-size:28px;
+      }
+      .subtitle{
+        font-size:14px;
+      }
+      .option-card{
+        padding:24px 20px;
+      }
+      .option-icon{
+        font-size:48px;
+        height:60px;
+        margin-bottom:16px;
+      }
+      .option-card h2{
+        font-size:20px;
+        margin-bottom:12px;
+      }
+      .option-card p{
+        font-size:13px;
+        margin-bottom:20px;
+      }
+      .btn{
+        padding:12px 24px;
+        font-size:13px;
+      }
+    }
   </style>
 </head>
 <body>

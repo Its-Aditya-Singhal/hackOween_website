@@ -283,3 +283,117 @@ body {
 #chatbot-input button:active {
   transform: translate3d(0, -1px, 0) scale(1.02);
 }
+
+/* ================================
+   RESPONSIVE DESIGN - CHATBOT
+   ================================ */
+
+/* Mobile */
+@media (max-width: 768px) {
+  #chatbot-icon {
+    bottom: 15px;
+    right: 15px;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+  
+  #chatbot-container {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+  }
+  
+  #chatbot-header {
+    padding: 15px 20px;
+  }
+  
+  #chatbot-header h3 {
+    font-size: 16px;
+  }
+  
+  #chatbot-close {
+    width: 32px;
+    height: 32px;
+    font-size: 22px;
+  }
+  
+  #chatbot-messages {
+    max-height: calc(100vh - 160px);
+    padding: 15px;
+  }
+  
+  .message {
+    font-size: 13px;
+    padding: 10px 14px;
+    max-width: 85%;
+  }
+  
+  #chatbot-input {
+    padding: 15px;
+  }
+  
+  #chatbot-input input {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  
+  #chatbot-input button {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  #chatbot-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    bottom: 12px;
+    right: 12px;
+  }
+  
+  #chatbot-header {
+    padding: 12px 15px;
+  }
+  
+  #chatbot-header h3 {
+    font-size: 15px;
+  }
+  
+  #chatbot-close {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+  
+  #chatbot-messages {
+    padding: 12px;
+  }
+  
+  .message {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+  
+  #chatbot-input {
+    padding: 12px;
+  }
+  
+  #chatbot-input input {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+  
+  #chatbot-input button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
